@@ -18,6 +18,6 @@ public class EyeAtlasDecoder implements BitmapDecoder {
 
     @Override
     public Bitmap decode(String fileName, Context context) {
-        return  S3ImageAdapter.getTile (Properties.getInstance(context));
+        return  S3ImageAdapter.getTile (Properties.getInstance(context), fileName);
     }
 }

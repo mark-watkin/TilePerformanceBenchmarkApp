@@ -36,12 +36,11 @@ public class S3ImageAdapter {
         return bmp;
     }
 
-    public static Bitmap getTile(Properties properties) {
-        String key = getImageUrl();
+    public static Bitmap getTile(Properties properties, String fileName) {
         AmazonS3 s3Client = new AmazonS3Client(properties);
         s3Client.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
 
-        GetObjectRequest request = new GetObjectRequest(properties.getBucketName(), key);
+        GetObjectRequest request = new GetObjectRequest(properties.getBucketName(), fileName);
         S3Object object = s3Client.getObject(request);
         S3ObjectInputStream in = object.getObjectContent();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(in);
