@@ -18,7 +18,7 @@ import nz.ac.aucklanduni.tileperformancebenchmarkapp.model.Properties;
 public class S3ImageAdapter {
 
     public static String getImageUrl() {
-        return "test/img4.jpg";
+        return "test/img8.jpg";
     }
 
     public static Bitmap getImage(Properties properties) {

@@ -1,6 +1,10 @@
 package nz.ac.aucklanduni.tileperformancebenchmarkapp.activities;
 
+import android.app.ActivityManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,12 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
             }.execute().get();
             long end = System.nanoTime();
-            Log.i("TileViewBenchmark", "Image render in nanoSeconds: " + (end - start));
+            Log.i("XEYE", "Image render in nanoSeconds: " + (end - start));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        pollNetworkUsage();
+
     }
 
 
@@ -71,5 +78,45 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void pollNetworkUsage() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                while(true) {
+                    try {
+                        ApplicationInfo info = getPackageManager().getApplicationInfo("nz.ac.aucklanduni.tileperformancebenchmarkapp", 0);
+                        Log.w("POLL", "TOTAL BYTE: " + TrafficStats.getUidRxBytes(info.uid));
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.execute();
+    }
+
+
+    public void pollMemoryUsage() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                while(true) {
+                    Log.w("POLL", "TOTAL MEM: " + Runtime.getRuntime().totalMemory());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.execute();
     }
 }

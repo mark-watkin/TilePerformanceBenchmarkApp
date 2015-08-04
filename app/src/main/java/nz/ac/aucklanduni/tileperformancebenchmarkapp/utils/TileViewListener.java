@@ -22,6 +22,6 @@ public class TileViewListener implements TileRenderListener {
     @Override
     public void onRenderComplete() {
         end = System.nanoTime();
-        Log.i("TileViewBenchmark", "Tile render in nanoSeconds: " + (end - start));
+        Log.i("XEYE", "Tile render in nanoSeconds: " + (end - start));
     }
 }
